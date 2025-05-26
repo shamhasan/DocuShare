@@ -141,13 +141,13 @@
 
     <nav class="navbar navbar-light navbar-custom fixed-top">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-            <a href="{{ route('home') }}" class="navbar-brand-custom">DocuShare</a>
+            <a href="<?php echo e(route('home')); ?>" class="navbar-brand-custom">DocuShare</a>
             <div class="user-greeting-container">
-                <span class="user-greeting">Halo, {{ Auth::check() ? Auth::user()->name : 'Tamu' }}!</span>
-                <a href="{{ route('edit_profile') }}" class="settings-icon ms-2" title="Edit Profil"><i class="fa-solid fa-gear"></i></a>
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="settings-icon ms-2" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
+                <span class="user-greeting">Halo, <?php echo e(Auth::check() ? Auth::user()->name : 'Tamu'); ?>!</span>
+                <a href="<?php echo e(route('edit_profile')); ?>" class="settings-icon ms-2" title="Edit Profil"><i class="fa-solid fa-gear"></i></a>
+                <a href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="settings-icon ms-2" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+                <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
+                    <?php echo csrf_field(); ?>
                 </form>
             </div>
         </div>
@@ -156,41 +156,63 @@
     <div class="hero">
         <div class="card-form">
             <h2>Perbarui Datamu!</h2>
-            @if (session('success'))
+            <?php if(session('success')): ?>
                 <div class="alert alert-success alert-dismissible fade show w-100 mb-4" role="alert">
-                    {{ session('success') }}
+                    <?php echo e(session('success')); ?>
+
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            @endif
-            @if ($errors->any())
+            <?php endif; ?>
+            <?php if($errors->any()): ?>
                 <div class="alert alert-danger alert-dismissible fade show w-100 mb-4" role="alert">
                     Ada masalah saat memperbarui profil:
                     <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
+                        <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <li><?php echo e($error); ?></li>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </ul>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            @endif
+            <?php endif; ?>
 
-            <form action="{{ route('profile.update') }}" method="POST">
-                @csrf
-                @method('PUT')
+            <form action="<?php echo e(route('profile.update')); ?>" method="POST">
+                <?php echo csrf_field(); ?>
+                <?php echo method_field('PUT'); ?>
                 <div class="form-group">
                     <label for="name" class="form-label">Nama</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name', Auth::user()->name) }}" required>
-                    @error('name')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+                    <input type="text" class="form-control" id="name" name="name" value="<?php echo e(old('name', Auth::user()->name)); ?>" required>
+                    <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?><div class="text-danger mt-1"><?php echo e($message); ?></div><?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
                 <div class="form-group">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email', Auth::user()->email) }}" required>
-                    @error('email')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+                    <input type="email" class="form-control" id="email" name="email" value="<?php echo e(old('email', Auth::user()->email)); ?>" required>
+                    <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?><div class="text-danger mt-1"><?php echo e($message); ?></div><?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
                 <div class="form-group">
                     <label for="password" class="form-label">Password (Kosongkan jika tidak diubah)</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan kata sandi baru jika ingin diubah">
-                    @error('password')<div class="text-danger mt-1">{{ $message }}</div>@enderror
+                    <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?><div class="text-danger mt-1"><?php echo e($message); ?></div><?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                 </div>
                 <div class="form-group">
                     <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
@@ -205,4 +227,4 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 </body>
-</html>
+</html><?php /**PATH C:\Users\THINKPAD\Documents\College\Pemmrograman Web\pemweb_project_akhir\docushare-pemweb\resources\views/edit_profile.blade.php ENDPATH**/ ?>

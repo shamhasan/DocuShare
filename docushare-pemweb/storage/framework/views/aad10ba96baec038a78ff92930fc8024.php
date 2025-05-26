@@ -131,50 +131,51 @@
 
     <nav class="navbar navbar-light navbar-custom fixed-top">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-            <a href="{{ route('home') }}" class="navbar-brand-custom">DocuShare</a>
+            <a href="<?php echo e(route('home')); ?>" class="navbar-brand-custom">DocuShare</a>
             <div class="user-greeting-container">
-                <span class="user-greeting">Halo, {{ Auth::check() ? Auth::user()->name : 'Tamu' }}!</span>
-                <a href="{{ route('edit_profile') }}" class="settings-icon ms-2" title="Edit Profil"><i class="fa-solid fa-gear"></i></a>
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="settings-icon ms-2" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
+                <span class="user-greeting">Halo, <?php echo e(Auth::check() ? Auth::user()->name : 'Tamu'); ?>!</span>
+                <a href="<?php echo e(route('edit_profile')); ?>" class="settings-icon ms-2" title="Edit Profil"><i class="fa-solid fa-gear"></i></a>
+                <a href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="settings-icon ms-2" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+                <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
+                    <?php echo csrf_field(); ?>
                 </form>
             </div>
         </div>
     </nav>
 
     <div class="content-wrapper">
-        @if (session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success alert-dismissible fade show w-100 mb-4" role="alert">
-                {{ session('success') }}
+                <?php echo e(session('success')); ?>
+
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        @endif
-        @if ($errors->any())
+        <?php endif; ?>
+        <?php if($errors->any()): ?>
             <div class="alert alert-danger alert-dismissible fade show w-100 mb-4" role="alert">
                 Ada masalah dengan unggahan Anda:
                 <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
+                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <li><?php echo e($error); ?></li>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </ul>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        @endif
+        <?php endif; ?>
 
-        <form action="{{ route('document.store') }}" method="POST" enctype="multipart/form-data" class="w-100 d-flex flex-column align-items-center">
-            @csrf
+        <form action="<?php echo e(route('document.store')); ?>" method="POST" enctype="multipart/form-data" class="w-100 d-flex flex-column align-items-center">
+            <?php echo csrf_field(); ?>
             <div class="upload-card">
                 <i class="fa-solid fa-file-lines upload-icon"></i>
                 <p class="upload-text">Tarik file ke sini atau <a href="#" id="browse-file-link">Telusuri File</a></p>
                 <input type="file" id="file-input" name="file_input" style="display: none;" required>
                 <div class="form-group mt-3">
                     <label for="original_filename_input" class="form-label">Nama Dokumen (Opsional)</label>
-                    <input type="text" class="form-control" id="original_filename_input" name="original_filename" placeholder="Masukkan nama dokumen jika berbeda" value="{{ old('original_filename') }}">
+                    <input type="text" class="form-control" id="original_filename_input" name="original_filename" placeholder="Masukkan nama dokumen jika berbeda" value="<?php echo e(old('original_filename')); ?>">
                 </div>
                 <div class="form-group mt-3">
                     <label for="description_input" class="form-label">Deskripsi (Opsional)</label>
-                    <textarea class="form-control" id="description_input" name="description" rows="3" placeholder="Tambahkan deskripsi dokumen">{{ old('description') }}</textarea>
+                    <textarea class="form-control" id="description_input" name="description" rows="3" placeholder="Tambahkan deskripsi dokumen"><?php echo e(old('description')); ?></textarea>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary btn-upload-file">Unggah</button>
@@ -192,4 +193,4 @@
     </script>
     </div>
     </body>
-</html>
+</html><?php /**PATH C:\Users\THINKPAD\Documents\College\Pemmrograman Web\pemweb_project_akhir\docushare-pemweb\resources\views/upload_file.blade.php ENDPATH**/ ?>

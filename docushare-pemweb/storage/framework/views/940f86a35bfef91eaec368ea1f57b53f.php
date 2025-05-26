@@ -23,7 +23,7 @@
             max-width: 1200px;
             margin: 0 auto;
             overflow-x: hidden;
-            background-color: #ffffff; 
+            background-color: #ffffff; /* Ubah ke putih */
             font-family: 'Roboto', sans-serif;
             padding-top: 70px;
         }
@@ -183,28 +183,29 @@
 
     <nav class="navbar navbar-light navbar-custom fixed-top">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-            <a href="{{ route('home') }}" class="navbar-brand-custom">DocuShare</a>
+            <a href="<?php echo e(route('home')); ?>" class="navbar-brand-custom">DocuShare</a>
             <div class="user-greeting-container">
-                <span class="user-greeting">Halo, {{ Auth::check() ? Auth::user()->name : 'Tamu' }}!</span>
-                <a href="{{ route('edit_profile') }}" class="settings-icon ms-2" title="Edit Profil"><i class="fa-solid fa-gear"></i></a>
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="settings-icon ms-2" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
+                <span class="user-greeting">Halo, <?php echo e(Auth::check() ? Auth::user()->name : 'Tamu'); ?>!</span>
+                <a href="<?php echo e(route('edit_profile')); ?>" class="settings-icon ms-2" title="Edit Profil"><i class="fa-solid fa-gear"></i></a>
+                <a href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="settings-icon ms-2" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+                <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
+                    <?php echo csrf_field(); ?>
                 </form>
             </div>
         </div>
     </nav>
 
     <div class="content-wrapper">
-        @if (session('success'))
+        <?php if(session('success')): ?>
             <div class="alert alert-success alert-dismissible fade show w-100 mb-4" role="alert">
-                {{ session('success') }}
+                <?php echo e(session('success')); ?>
+
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        @endif
+        <?php endif; ?>
 
         <div class="search-bar-container">
-            <form class="d-flex" action="{{ route('home') }}" method="GET"> <input class="form-control me-2 search-input" type="search" name="search" placeholder="Cari dokumen.." aria-label="Search" value="{{ request('search') }}">
+            <form class="d-flex" action="<?php echo e(route('home')); ?>" method="GET"> <input class="form-control me-2 search-input" type="search" name="search" placeholder="Cari dokumen.." aria-label="Search" value="<?php echo e(request('search')); ?>">
                 <button class="btn btn-outline-primary btn-search" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
@@ -212,34 +213,34 @@
         </div>
 
         <div class="upload-button-container">
-            <a href="{{ route('upload-file') }}" class="btn btn-primary"><i class="fa-solid fa-upload me-2"></i>Unggah Dokumen</a>
+            <a href="<?php echo e(route('upload-file')); ?>" class="btn btn-primary"><i class="fa-solid fa-upload me-2"></i>Unggah Dokumen</a>
         </div>
 
         <div class="document-list-container">
-            @forelse($documents as $document)
+            <?php $__empty_1 = true; $__currentLoopData = $documents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $document): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
             <div class="document-item">
                 <span class="document-item-title">
-                    {{-- <a href="{{ Storage::disk('public')->url($document->file_path) }}" target="_blank">{{ $document->original_filename }}</a> --}}
-                    <a href="{{ asset('storage/' . $document->file_path) }}">{{ $document->original_filename }}</a>
-                    <p>Diupload oleh : {{ $document->user->name}}</p>
+                    
+                    <a href="<?php echo e(asset('storage/' . $document->file_path)); ?>"><?php echo e($document->original_filename); ?></a>
+                    <p>Diupload oleh : <?php echo e($document->user->name); ?></p>
                 </span>
                 <div class="document-actions">
-                    <a href="{{ route('documents.edit', $document->id) }}" class="btn btn-edit" title="Edit Dokumen"><i class="fa-solid fa-pencil"></i></a>
+                    <a href="<?php echo e(route('documents.edit', $document->id)); ?>" class="btn btn-edit" title="Edit Dokumen"><i class="fa-solid fa-pencil"></i></a>
                     
-                    <form action="{{ route('documents.destroy', $document->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
+                    <form action="<?php echo e(route('documents.destroy', $document->id)); ?>" method="POST" class="d-inline">
+                        <?php echo csrf_field(); ?>
+                        <?php echo method_field('DELETE'); ?>
                         <button type="submit" class="btn btn-delete" onclick="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?')" title="Hapus Dokumen"><i class="fa-solid fa-trash-can"></i></button>
                     </form>
                 </div>
             </div>
-            @empty
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                 <p class="text-center text-muted">Belum ada dokumen yang diunggah.</p>
-            @endforelse
+            <?php endif; ?>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 </body>
-</html>
+</html><?php /**PATH C:\Users\THINKPAD\Documents\College\Pemmrograman Web\pemweb_project_akhir\docushare-pemweb\resources\views/home.blade.php ENDPATH**/ ?>

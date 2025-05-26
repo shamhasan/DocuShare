@@ -19,7 +19,7 @@
             min-height: 100vh;
             margin: 0;
             background-color: #f8f9fa;
-            font-family: 'Roboto', sans-serif; 
+            font-family: 'Roboto', sans-serif; /* Menggunakan font Roboto */
         }
         .container-center {
             text-align: center;
@@ -40,12 +40,12 @@
         <h1 class="mb-3 display- fw-bold">Selamat Datang di DocuShare !</h1>
         <p class="lead mb-4">Aplikasi yang siap membantumu untuk mengelola file mu secara online</p>
         <div>
-            <a href="{{ route('register') }}" class="btn btn-primary btn-lg">Mulai</a>
-            <a href="{{ route('login') }}" class="btn btn-outline-primary btn-lg">Masuk</a>
+            <a href="<?php echo e(route('register')); ?>" class="btn btn-primary btn-lg">Mulai</a>
+            <a href="<?php echo e(route('login')); ?>" class="btn btn-outline-primary btn-lg">Masuk</a>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
-</html>
+</html><?php /**PATH C:\Users\THINKPAD\Documents\College\Pemmrograman Web\pemweb_project_akhir\docushare-pemweb\resources\views/welcome.blade.php ENDPATH**/ ?>

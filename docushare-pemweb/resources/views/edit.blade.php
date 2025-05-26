@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unggah File - DocuShare</title>
+    <title>Edit Dokumen - DocuShare</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -18,21 +18,15 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-        /* Global Body Styling - Disatukan untuk layout halaman upload */
         body {
             max-width: 1200px;
             margin: 0 auto;
             overflow-x: hidden;
-            background-color: #ffffff;
+            background-color: #f8f9fa;
             font-family: 'Roboto', sans-serif;
             padding-top: 70px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            min-height: 100vh;
         }
 
-        /* Navbar Styling - Sama dengan halaman Home */
         .navbar-custom {
             background-color: #fff;
             padding: 1rem 15px;
@@ -74,55 +68,77 @@
             color: #0d6efd;
         }
 
-        /* Content Wrapper - Diatur ulang untuk halaman upload */
         .content-wrapper {
-            flex-grow: 1;
+            padding: 20px 15px;
             display: flex;
             flex-direction: column;
-            justify-content: center; 
-            align-items: center; 
-            padding: 20px 15px;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: calc(100vh - 70px);
         }
 
-        /* Upload Card Styling */
-        .upload-card {
+        .card-form {
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             padding: 40px;
-            width: 100%; 
-            max-width: 600px; 
+            max-width: 550px;
+            width: 100%;
             text-align: center;
+        }
+
+        .card-form h2 {
             margin-bottom: 30px;
+            font-weight: 600;
+            color: #333;
         }
 
-        .upload-icon {
-            font-size: 5rem;
-            color: #6c757d;
-            margin-bottom: 20px;
-        }
-
-        .upload-text {
-            font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 0;
-        }
-
-        .upload-text a {
-            color: #0d6efd;
-            text-decoration: none;
+        .form-label {
+            text-align: left;
+            display: block;
+            margin-bottom: 5px;
             font-weight: 500;
         }
 
-        .upload-text a:hover {
-            text-decoration: underline;
+        .form-control, .form-textarea {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ced4da;
+            background-color: #e9ecef;
         }
 
-        .btn-upload-file {
-            padding: 12px 40px;
+        .form-control:focus, .form-textarea:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            background-color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn-update-doc {
+            width: 100%;
+            padding: 12px 15px;
             border-radius: 8px;
             font-size: 1.1rem;
             font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .file-info {
+            background-color: #e9ecef;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 0.95rem;
+            color: #555;
+            word-break: break-all;
+        }
+
+        .file-info strong {
+            color: #333;
         }
     </style>
 </head>
@@ -152,7 +168,7 @@
         @endif
         @if ($errors->any())
             <div class="alert alert-danger alert-dismissible fade show w-100 mb-4" role="alert">
-                Ada masalah dengan unggahan Anda:
+                Ada masalah saat memperbarui dokumen:
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -162,34 +178,43 @@
             </div>
         @endif
 
-        <form action="{{ route('document.store') }}" method="POST" enctype="multipart/form-data" class="w-100 d-flex flex-column align-items-center">
-            @csrf
-            <div class="upload-card">
-                <i class="fa-solid fa-file-lines upload-icon"></i>
-                <p class="upload-text">Tarik file ke sini atau <a href="#" id="browse-file-link">Telusuri File</a></p>
-                <input type="file" id="file-input" name="file_input" style="display: none;" required>
-                <div class="form-group mt-3">
-                    <label for="original_filename_input" class="form-label">Nama Dokumen (Opsional)</label>
-                    <input type="text" class="form-control" id="original_filename_input" name="original_filename" placeholder="Masukkan nama dokumen jika berbeda" value="{{ old('original_filename') }}">
+        <div class="card-form">
+            <h2>Edit Dokumen</h2>
+            <form action="{{ route('documents.update', $document->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="form-group">
+                    <label for="original_filename" class="form-label">Nama File</label>
+                    <input type="text" class="form-control" id="original_filename" name="original_filename"
+                        value="{{ old('original_filename', $document->original_filename) }}" required>
+                    @error('original_filename')
+                        <div class="text-danger mt-1">{{ $message }}</div>
+                    @enderror
                 </div>
-                <div class="form-group mt-3">
-                    <label for="description_input" class="form-label">Deskripsi (Opsional)</label>
-                    <textarea class="form-control" id="description_input" name="description" rows="3" placeholder="Tambahkan deskripsi dokumen">{{ old('description') }}</textarea>
+
+                <div class="form-group">
+                    <label for="description" class="form-label">Deskripsi (Opsional)</label>
+                    <textarea class="form-control form-textarea" id="description" name="description" rows="3">{{ old('description', $document->description) }}</textarea>
+                    @error('description')
+                        <div class="text-danger mt-1">{{ $message }}</div>
+                    @enderror
                 </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-upload-file">Unggah</button>
-        </form>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+
+                <div class="file-info">
+                    <strong>Tipe File:</strong> {{ $document->file_mime_type ?? '-' }} <br>
+                    <strong>Ukuran:</strong> {{ number_format($document->file_size / 1024, 2) }} KB <br>
+                    <small>Tanggal Unggah: {{ $document->created_at->format('d M Y H:i') }}</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-update-doc">Simpan Perubahan</button>
+
+                <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-update-doc mt-3">Batal</a>
+            </form>
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
-
-    <script>
-        // Klik link "Telusuri File" akan membuka file picker
-        document.getElementById('browse-file-link').addEventListener('click', function (e) {
-            e.preventDefault();
-            document.getElementById('file-input').click();
-        });
-    </script>
-    </div>
-    </body>
+</body>
 </html>
