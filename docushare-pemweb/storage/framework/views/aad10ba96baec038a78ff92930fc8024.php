@@ -79,8 +79,8 @@
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center; 
-            align-items: center; 
+            justify-content: center;
+            align-items: center;
             padding: 20px 15px;
         }
 
@@ -90,8 +90,8 @@
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             padding: 40px;
-            width: 100%; 
-            max-width: 600px; 
+            width: 100%;
+            max-width: 600px;
             text-align: center;
             margin-bottom: 30px;
         }
@@ -134,8 +134,11 @@
             <a href="<?php echo e(route('home')); ?>" class="navbar-brand-custom">DocuShare</a>
             <div class="user-greeting-container">
                 <span class="user-greeting">Halo, <?php echo e(Auth::check() ? Auth::user()->name : 'Tamu'); ?>!</span>
-                <a href="<?php echo e(route('edit_profile')); ?>" class="settings-icon ms-2" title="Edit Profil"><i class="fa-solid fa-gear"></i></a>
-                <a href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="settings-icon ms-2" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+                <a href="<?php echo e(route('edit_profile')); ?>" class="settings-icon ms-2" title="Edit Profil"><i
+                        class="fa-solid fa-gear"></i></a>
+                <a href="<?php echo e(route('logout')); ?>"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                    class="settings-icon ms-2" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></a>
                 <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
                     <?php echo csrf_field(); ?>
                 </form>
@@ -163,34 +166,46 @@
             </div>
         <?php endif; ?>
 
-        <form action="<?php echo e(route('document.store')); ?>" method="POST" enctype="multipart/form-data" class="w-100 d-flex flex-column align-items-center">
+        <form action="<?php echo e(route('document.store')); ?>" method="POST" enctype="multipart/form-data"
+            class="w-100 d-flex flex-column align-items-center">
             <?php echo csrf_field(); ?>
             <div class="upload-card">
                 <i class="fa-solid fa-file-lines upload-icon"></i>
-                <p class="upload-text">Tarik file ke sini atau <a href="#" id="browse-file-link">Telusuri File</a></p>
+                <p class="upload-text">Tarik file ke sini atau <a href="#" id="browse-file-link">Telusuri File</a>
+                </p>
+                
                 <input type="file" id="file-input" name="file_input" style="display: none;" required>
+                <p id="file-name" class="mt-2">Belum ada file yang dipilih.</p>
                 <div class="form-group mt-3">
                     <label for="original_filename_input" class="form-label">Nama Dokumen (Opsional)</label>
-                    <input type="text" class="form-control" id="original_filename_input" name="original_filename" placeholder="Masukkan nama dokumen jika berbeda" value="<?php echo e(old('original_filename')); ?>">
+                    <input type="text" class="form-control" id="original_filename_input" name="original_filename"
+                        placeholder="Masukkan nama dokumen jika berbeda" value="<?php echo e(old('original_filename')); ?>">
                 </div>
                 <div class="form-group mt-3">
                     <label for="description_input" class="form-label">Deskripsi (Opsional)</label>
-                    <textarea class="form-control" id="description_input" name="description" rows="3" placeholder="Tambahkan deskripsi dokumen"><?php echo e(old('description')); ?></textarea>
+                    <textarea class="form-control" id="description_input" name="description" rows="3"
+                        placeholder="Tambahkan deskripsi dokumen"><?php echo e(old('description')); ?></textarea>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary btn-upload-file">Unggah</button>
         </form>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
 
-    <script>
-        // Klik link "Telusuri File" akan membuka file picker
-        document.getElementById('browse-file-link').addEventListener('click', function (e) {
-            e.preventDefault();
-            document.getElementById('file-input').click();
-        });
-    </script>
+        <script>
+            document.getElementById('browse-file-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('file-input').click();
+            });
+
+            document.getElementById('file-input').addEventListener('change', function(e) {
+                const fileName = e.target.files[0] ? e.target.files[0].name : 'Belum ada file yang dipilih.';
+                document.getElementById('file-name').textContent = fileName;
+            });
+        </script>
     </div>
-    </body>
-</html><?php /**PATH C:\Users\THINKPAD\Documents\College\Pemmrograman Web\pemweb_project_akhir\docushare-pemweb\resources\views/upload_file.blade.php ENDPATH**/ ?>
+</body>
+
+</html>
+<?php /**PATH C:\Users\THINKPAD\Documents\College\Pemmrograman Web\pemweb_project_akhir\docushare-pemweb\resources\views/upload_file.blade.php ENDPATH**/ ?>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Akun - DocuShare</title>
+    <title>Daftar Akun - DocuShare</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -47,12 +47,13 @@
             font-size: 1.5rem;
             font-weight: 700;
             font-family: 'Roboto', sans-serif;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             color: #333;
+
         }
 
         .card-form h2 {
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             font-weight: 600;
             color: #333;
         }
@@ -60,7 +61,7 @@
         .form-label {
             text-align: left;
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             font-weight: 500;
         }
 
@@ -81,7 +82,7 @@
             margin-bottom: 20px;
         }
 
-        .btn-daftar { 
+        .btn-daftar {
             width: 100%;
             padding: 12px 15px;
             border-radius: 8px;
@@ -106,7 +107,7 @@
 
 <body>
 
-    <nav class="navbar navbar-light ">
+    <nav class="navbar navbar-light">
         <div class="container-fluid">
             <span class="navbar-brand mb-0 h1">DocuShare</span>
         </div>
@@ -114,41 +115,64 @@
     <div class="hero">
         <div class="card-form">
             <h2>Selamat datang!</h2>
-            <form action="<?php echo e(route('login')); ?>" method="POST">
+            <form action="<?php echo e(route('register')); ?>" method="POST">
                 <?php echo csrf_field(); ?> <div class="form-group">
+                    <label for="name" class="form-label">Nama</label>
+                    <input type="text" class="form-control" id="name" name="name"
+                        placeholder="Masukkan nama anda" required value="<?php echo e(old('name')); ?>">
+                    <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                        <div class="text-danger mt-1"><?php echo e($message); ?></div>
+                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                </div>
+                <div class="form-group">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email anda" required value="<?php echo e(old('email')); ?>">
+                    <input type="email" class="form-control" id="email" name="email"
+                        placeholder="Masukkan email anda" required value="<?php echo e(old('email')); ?>">
                     <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?><div class="text-danger mt-1"><?php echo e($message); ?></div><?php unset($message);
+$message = $__bag->first($__errorArgs[0]); ?>
+                        <div class="text-danger mt-1"><?php echo e($message); ?></div>
+                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan kata sandi anda" required>
+                    <input type="password" class="form-control" id="password" name="password"
+                        placeholder="Masukkan kata sandi anda" required>
                     <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?><div class="text-danger mt-1"><?php echo e($message); ?></div><?php unset($message);
+$message = $__bag->first($__errorArgs[0]); ?>
+                        <div class="text-danger mt-1"><?php echo e($message); ?></div>
+                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
-
-                <div class="form-group text-end"> 
-                    <a href="<?php echo e(route('password.request')); ?>" class="text-muted" style="font-size: 0.9rem;">Lupa Password?</a>
+                <div class="form-group">
+                    <label for="password_confirmation" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
+                        placeholder="Masukkan kata sandi anda" required>
                 </div>
 
                 <p class="form-text">
-                    Belum punya akun? <a href="<?php echo e(route('register')); ?>">Daftar</a>
+                    Sudah punya akun? <a href="<?php echo e(route('login')); ?>">Masuk</a>
                 </p>
 
-                <button type="submit" class="btn btn-primary btn-daftar">Login</button> </form>
+                <button type="submit" class="btn btn-primary btn-daftar">Daftar</button>
+            </form>
         </div>
     </div>
 
@@ -158,4 +182,5 @@ unset($__errorArgs, $__bag); ?>
 
 </body>
 
-</html><?php /**PATH C:\Users\THINKPAD\Documents\College\Pemmrograman Web\pemweb_project_akhir\docushare-pemweb\resources\views/auth/login.blade.php ENDPATH**/ ?>
+</html>
+<?php /**PATH C:\Users\THINKPAD\Documents\College\Pemmrograman Web\pemweb_project_akhir\docushare-pemweb\resources\views/auth/register.blade.php ENDPATH**/ ?>

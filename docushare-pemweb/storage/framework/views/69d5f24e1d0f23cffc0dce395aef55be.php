@@ -47,7 +47,7 @@
             font-size: 1.5rem;
             font-weight: 700;
             font-family: 'Roboto', sans-serif;
-            margin-bottom: 30px; /* Jarak antara logo dan form, sesuaikan jika ada navbar fixed */
+            margin-bottom: 30px; 
             color: #333;
         }
 
@@ -81,7 +81,7 @@
             margin-bottom: 20px;
         }
 
-        .btn-submit-email { /* Class khusus untuk tombol ini */
+        .btn-submit-email { 
             width: 100%;
             padding: 12px 15px;
             border-radius: 8px;

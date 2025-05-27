@@ -15,11 +15,11 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         /** @var \App\Models\User $user */ // 
-        $user = Auth::user(); // Dapatkan user yang sedang login
+        $user = Auth::user(); 
 
         $searchQuery = $request->input('search'); // Ambil query pencarian dari input
 
-        $documentsQuery = $user->documents();
+        $documentsQuery = Document::query();
 
         if ($searchQuery) {
             $documentsQuery->where(function ($query) use ($searchQuery) {

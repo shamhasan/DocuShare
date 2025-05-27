@@ -47,7 +47,7 @@
             font-size: 1.5rem;
             font-weight: 700;
             font-family: 'Roboto', sans-serif;
-            margin-bottom: 30px; /* Jarak antara logo dan form, sesuaikan jika ada navbar fixed */
+            margin-bottom: 30px; 
             color: #333;
         }
 
@@ -81,7 +81,7 @@
             margin-bottom: 20px;
         }
 
-        .btn-reset { /* Mengubah nama class btn-daftar menjadi btn-reset agar lebih spesifik */
+        .btn-reset {
             width: 100%;
             padding: 12px 15px;
             border-radius: 8px;
@@ -90,7 +90,7 @@
             margin-top: 20px;
         }
 
-        .form-text { /* Untuk pesan di bawah form, seperti "Belum punya akun?" */
+        .form-text {
             text-align: left;
             margin-top: 15px;
             font-size: 0.95rem;

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\UserProfileController;
-use Illuminate\Support\Facades\Auth; // Digunakan untuk Auth::routes();
+use Illuminate\Support\Facades\Auth; 
 
 // --- Rute Halaman Publik (Tidak Butuh Login) ---
 Route::get('/', function () {
@@ -13,13 +13,6 @@ Route::get('/', function () {
 
 // Rute Autentikasi (Register & Login)
 Auth::routes();
-// Ini akan otomatis membuat rute:
-// GET /login (showLoginForm)
-// POST /login (login)
-// GET /register (showRegistrationForm)
-// POST /register (register)
-// POST /logout (logout)
-
 
 // --- Rute yang Membutuhkan Autentikasi (Wajib Login) ---
 // Semua rute di dalam grup ini akan dilindungi oleh middleware 'auth'
@@ -42,8 +35,6 @@ Route::middleware(['auth'])->group(function () {
         })->name('documents.view');
 
     // Rute untuk edit dokumen (menggunakan ID dokumen)
-    // PERHATIAN: Ini adalah penyesuaian dari rute '/edit' kamu
-    // Sebaiknya URL menyertakan ID dokumen yang akan diedit
     Route::get('/documents/{document}/edit', [DocumentController::class, 'edit'])->name('documents.edit');
     // Rute untuk menyimpan perubahan dokumen (PUT request)
     Route::put('/documents/{document}', [DocumentController::class, 'update'])->name('documents.update');
@@ -55,6 +46,5 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/edit-profile', [UserProfileController::class, 'update'])->name('profile.update');
 
     // Menghapus rute '/edit' lama jika sudah digantikan oleh '/documents/{document}/edit'
-    // Jika Anda ingin mengalihkan /edit ke home jika diakses tanpa ID:
     Route::get('/edit', function() { return redirect()->route('home'); })->name('edit');
 });

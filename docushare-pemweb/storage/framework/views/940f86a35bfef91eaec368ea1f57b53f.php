@@ -23,7 +23,7 @@
             max-width: 1200px;
             margin: 0 auto;
             overflow-x: hidden;
-            background-color: #ffffff; /* Ubah ke putih */
+            background-color: #ffffff; 
             font-family: 'Roboto', sans-serif;
             padding-top: 70px;
         }
